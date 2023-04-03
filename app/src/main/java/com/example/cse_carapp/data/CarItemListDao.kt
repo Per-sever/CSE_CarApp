@@ -1,5 +1,6 @@
 package com.example.cse_carapp.data
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -11,7 +12,7 @@ interface CarItemListDao {
     //TODO Add LiveDates in Lists
 
     @Query("SELECT * FROM car_items")
-    fun getCarList(): List<CarItemDbModel>
+    fun getCarList(): LiveData<List<CarItemDbModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addCarItem(carItemDbModel: CarItemDbModel)

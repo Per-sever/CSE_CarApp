@@ -1,12 +1,9 @@
 package com.example.cse_carapp.presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.example.cse_carapp.R
-import com.example.cse_carapp.data.AppDatabase
+import androidx.lifecycle.ViewModelProvider
 import com.example.cse_carapp.databinding.ActivityMainBinding
-import com.example.cse_carapp.domain.CarItem
 import com.example.cse_carapp.presentation.adapters.CarListAdapter
 
 class MainActivity : AppCompatActivity() {
@@ -15,12 +12,18 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+    private lateinit var viewModel: MainViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
         val adapter = CarListAdapter()
         binding.rvCarList.adapter = adapter
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        viewModel.carList.observe(this) {
+            adapter.submitList(it)
+        }
 //        val carItemListDao = AppDatabase.getInstance(application).CarItemListDao()
 //        Log.d("SHOW_DB","${carItemListDao.filterCarList("Andrey")}")
 

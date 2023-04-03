@@ -1,10 +1,10 @@
 package com.example.cse_carapp.domain
 
-import com.example.cse_carapp.domain.CarItem
+import androidx.lifecycle.LiveData
 
 interface CarListRepository {
     //TODO add LiveDates to Lists
-    fun getCarList(): List<CarItem>
+    fun getCarList(): LiveData<List<CarItem>>
 
     fun showPhoto(idCarItem: Int): CarItem
 

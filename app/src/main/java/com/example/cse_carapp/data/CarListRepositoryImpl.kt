@@ -1,16 +1,20 @@
 package com.example.cse_carapp.data
 
 import android.app.Application
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import com.example.cse_carapp.domain.CarItem
 import com.example.cse_carapp.domain.CarListRepository
 
 class CarListRepositoryImpl(application: Application) : CarListRepository {
 
     private val carItemListDao = AppDatabase.getInstance(application).CarItemListDao()
+    private val mapper = CarListMapper()
 
-
-    override fun getCarList(): List<CarItem> {
-        TODO("Not yet implemented")
+    override fun getCarList(): LiveData<List<CarItem>> {
+        return carItemListDao.getCarList().map {
+            mapper.mapListModelToListEntity(it)
+        }
     }
 
     override fun showPhoto(idCarItem: Int): CarItem {
