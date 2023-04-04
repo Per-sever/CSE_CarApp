@@ -1,6 +1,7 @@
 package com.example.cse_carapp.presentation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.cse_carapp.databinding.ActivityMainBinding
@@ -23,6 +24,16 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.carList.observe(this) {
             adapter.submitList(it)
+        }
+        val buttonAdd = binding.buttonAdd
+        buttonAdd.setOnClickListener {
+            Log.d("CarItemActivity", "Click!")
+            val intent = CarItemActivity.newIntentAddItem(this)
+            startActivity(intent)
+//            val fragment = CarItemFragment.newInstanceAddItem()
+////            supportFragmentManager.popBackStack()
+////            supportFragmentManager.beginTransaction().replace(R.id.car_item_container, fragment)
+////                .addToBackStack(null).commit()
         }
 //        val carItemListDao = AppDatabase.getInstance(application).CarItemListDao()
 //        Log.d("SHOW_DB","${carItemListDao.filterCarList("Andrey")}")

@@ -9,7 +9,6 @@ import com.example.cse_carapp.domain.GetCarListUseCase
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = CarListRepositoryImpl(application)
 
-    private val addCarItemUseCase = AddCarItemUseCase(repository)
 
     val carList = GetCarListUseCase(repository).invoke()
 }

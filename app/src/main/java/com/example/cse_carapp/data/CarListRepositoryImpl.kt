@@ -22,7 +22,7 @@ class CarListRepositoryImpl(application: Application) : CarListRepository {
     }
 
     override fun addCarItem(carItem: CarItem) {
-        TODO("Not yet implemented")
+        carItemListDao.addCarItem(mapper.mapEntityToDbModel(carItem))
     }
 
     override fun editCarItem(carItem: CarItem) {
