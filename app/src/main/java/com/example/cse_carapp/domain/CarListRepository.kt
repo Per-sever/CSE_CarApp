@@ -6,7 +6,9 @@ interface CarListRepository {
     //TODO add LiveDates to Lists
     fun getCarList(): LiveData<List<CarItem>>
 
-    fun showPhoto(idCarItem: Int): CarItem
+    fun getCarItem(carItemId: Int): CarItem
+
+    fun showPhoto(carItemId: Int): CarItem
 
     fun addCarItem(carItem: CarItem)
 

@@ -17,16 +17,23 @@ class CarListRepositoryImpl(application: Application) : CarListRepository {
         }
     }
 
-    override fun showPhoto(idCarItem: Int): CarItem {
+    override fun getCarItem(carItemId: Int): CarItem {
+        val dbModel = carItemListDao.getCarItem(carItemId)
+        return mapper.mapDbModelToEntity(dbModel)
+    }
+
+    override fun showPhoto(carItemId: Int): CarItem {
         TODO("Not yet implemented")
     }
 
     override fun addCarItem(carItem: CarItem) {
-        carItemListDao.addCarItem(mapper.mapEntityToDbModel(carItem))
+        val dbModel = mapper.mapEntityToDbModel(carItem)
+        carItemListDao.addCarItem(dbModel)
     }
 
     override fun editCarItem(carItem: CarItem) {
-        TODO("Not yet implemented")
+        val dbModel = mapper.mapEntityToDbModel(carItem)
+        carItemListDao.addCarItem(dbModel)
     }
 
     override fun filterCarList(): List<CarItem> {

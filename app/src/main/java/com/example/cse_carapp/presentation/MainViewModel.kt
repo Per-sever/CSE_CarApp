@@ -11,4 +11,5 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
     val carList = GetCarListUseCase(repository).invoke()
+
 }

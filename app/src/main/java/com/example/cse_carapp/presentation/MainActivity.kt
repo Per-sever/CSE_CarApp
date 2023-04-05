@@ -1,9 +1,10 @@
 package com.example.cse_carapp.presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.cse_carapp.databinding.ActivityMainBinding
 import com.example.cse_carapp.presentation.adapters.CarListAdapter
 
@@ -14,30 +15,55 @@ class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var viewModel: MainViewModel
+    private val adapterCarList by lazy {
+        CarListAdapter()
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        val adapter = CarListAdapter()
-        binding.rvCarList.adapter = adapter
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.carList.observe(this) {
-            adapter.submitList(it)
+            adapterCarList.submitList(it)
         }
         val buttonAdd = binding.buttonAdd
         buttonAdd.setOnClickListener {
-            Log.d("CarItemActivity", "Click!")
             val intent = CarItemActivity.newIntentAddItem(this)
             startActivity(intent)
-//            val fragment = CarItemFragment.newInstanceAddItem()
-////            supportFragmentManager.popBackStack()
-////            supportFragmentManager.beginTransaction().replace(R.id.car_item_container, fragment)
-////                .addToBackStack(null).commit()
         }
-//        val carItemListDao = AppDatabase.getInstance(application).CarItemListDao()
-//        Log.d("SHOW_DB","${carItemListDao.filterCarList("Andrey")}")
+    }
 
+
+    override fun onResume() {
+        super.onResume()
+        setupRecyclerView()
+    }
+
+    private fun setupRecyclerView() {
+        //todo OPTIMIZE
+        val rvCarList = binding.rvCarList
+        rvCarList.adapter = adapterCarList
+        setupSwipeListener(rvCarList)
+    }
+
+    private fun setupSwipeListener(rvCarList: RecyclerView?) {
+        val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val item = adapterCarList.currentList[viewHolder.adapterPosition]
+                val intent = CarItemActivity.newIntentEditItem(this@MainActivity, item.id)
+                startActivity(intent)
+            }
+        }
+        ItemTouchHelper(callback).attachToRecyclerView(rvCarList)
     }
 
 }
