@@ -4,6 +4,7 @@ package com.example.cse_carapp.presentation.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
+import com.bumptech.glide.Glide
 import com.example.cse_carapp.databinding.ItemCarBinding
 import com.example.cse_carapp.domain.CarItem
 
@@ -17,6 +18,7 @@ class CarListAdapter : ListAdapter<CarItem, CarItemViewHolder>(CarListDiffCallba
         return CarItemViewHolder(binding)
     }
 
+
     override fun onBindViewHolder(holder: CarItemViewHolder, position: Int) {
         val binding = holder.binding
         val carItem = getItem(position)
@@ -24,6 +26,10 @@ class CarListAdapter : ListAdapter<CarItem, CarItemViewHolder>(CarListDiffCallba
             brandTv.text = carItem.name
             countryTv.text = carItem.country
             priceTv.text = carItem.price.toString()
+            Glide.with(holder.itemView.context).load(carItem.uriImageItem)
+                .into(imageViewCar)
+
+//            imageViewCar.setImageURI(carItem.uriImageItem.toUri())
         }
     }
 }
