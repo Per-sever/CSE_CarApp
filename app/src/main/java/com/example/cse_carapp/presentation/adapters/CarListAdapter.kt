@@ -28,8 +28,6 @@ class CarListAdapter : ListAdapter<CarItem, CarItemViewHolder>(CarListDiffCallba
             priceTv.text = carItem.price.toString()
             Glide.with(holder.itemView.context).load(carItem.uriImageItem)
                 .into(imageViewCar)
-
-//            imageViewCar.setImageURI(carItem.uriImageItem.toUri())
         }
     }
 }

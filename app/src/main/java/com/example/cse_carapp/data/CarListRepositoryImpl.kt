@@ -17,7 +17,7 @@ class CarListRepositoryImpl(application: Application) : CarListRepository {
         }
     }
 
-    override fun getCarItem(carItemId: Int): CarItem {
+    override suspend fun getCarItem(carItemId: Int): CarItem {
         val dbModel = carItemListDao.getCarItem(carItemId)
         return mapper.mapDbModelToEntity(dbModel)
     }
@@ -26,21 +26,25 @@ class CarListRepositoryImpl(application: Application) : CarListRepository {
         TODO("Not yet implemented")
     }
 
-    override fun addCarItem(carItem: CarItem) {
+    override suspend fun addCarItem(carItem: CarItem) {
         val dbModel = mapper.mapEntityToDbModel(carItem)
         carItemListDao.addCarItem(dbModel)
     }
 
-    override fun editCarItem(carItem: CarItem) {
+    override suspend fun editCarItem(carItem: CarItem) {
         val dbModel = mapper.mapEntityToDbModel(carItem)
         carItemListDao.addCarItem(dbModel)
     }
 
-    override fun filterCarList(): List<CarItem> {
-        TODO("Not yet implemented")
+    override fun filterCarList(carCountry: String): LiveData<List<CarItem>> {
+        return carItemListDao.filterCarList(carCountry).map {
+            mapper.mapListModelToListEntity(it)
+        }
     }
 
-    override fun sortCarList(): List<CarItem> {
-        TODO("Not yet implemented")
+    override fun sortCarList(): LiveData<List<CarItem>> {
+        return carItemListDao.sortCarListByAscName().map {
+            mapper.mapListModelToListEntity(it)
+        }
     }
 }

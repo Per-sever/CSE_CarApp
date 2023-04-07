@@ -3,18 +3,18 @@ package com.example.cse_carapp.domain
 import androidx.lifecycle.LiveData
 
 interface CarListRepository {
-    //TODO add LiveDates to Lists
+
     fun getCarList(): LiveData<List<CarItem>>
 
-    fun getCarItem(carItemId: Int): CarItem
+    suspend fun getCarItem(carItemId: Int): CarItem
 
     fun showPhoto(carItemId: Int): CarItem
 
-    fun addCarItem(carItem: CarItem)
+    suspend fun addCarItem(carItem: CarItem)
 
-    fun editCarItem(carItem: CarItem)
+    suspend fun editCarItem(carItem: CarItem)
 
-    fun filterCarList(): List<CarItem>
+    fun filterCarList(carCountry: String): LiveData<List<CarItem>>
 
-    fun sortCarList(): List<CarItem>
+    fun sortCarList(): LiveData<List<CarItem>>
 }

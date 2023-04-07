@@ -60,7 +60,6 @@ class CarItemFragment : Fragment() {
                             resource: Drawable,
                             transition: Transition<in Drawable>?
                         ) {
-                            Log.d("NameofImage", "${result.data?.data}")
                             val file = File(
                                 context.filesDir,
                                 "${System.currentTimeMillis()}.jpg"

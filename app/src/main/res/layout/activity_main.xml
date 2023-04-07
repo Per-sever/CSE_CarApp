@@ -27,13 +27,15 @@
         android:id="@+id/linear_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#AFCFDD"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent">
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginHorizontal="6dp"
             android:backgroundTint="#FF6B6B"
             android:padding="6dp"
             android:text="Добавить"
@@ -43,14 +45,13 @@
             app:cornerRadius="16dp"
             app:icon="@drawable/baseline_add_24"
             app:iconSize="20dp"
-            app:iconTint="#FFFFFF"
-          />
+            app:iconTint="#FFFFFF" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_sort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginHorizontal="6dp"
             android:backgroundTint="#FF6B6B"
             android:padding="6dp"
             android:text="Сортировать по цене"
@@ -58,29 +59,51 @@
             android:textSize="14sp"
             android:textStyle="bold"
             app:cornerRadius="16dp"
-            app:icon="@drawable/baseline_add_24"
+            app:icon="@drawable/filter_list"
             app:iconSize="20dp"
-            app:iconTint="#FFFFFF"
-          />
+            app:iconTint="#FFFFFF" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_filter"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:backgroundTint="#FF6B6B"
-            android:padding="6dp"
-            android:text="Фильтровать"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:cornerRadius="16dp"
-            app:icon="@drawable/baseline_add_24"
-            app:iconSize="20dp"
-            app:iconTint="#FFFFFF"
-            />
-    </LinearLayout>
+            android:layout_gravity="center_horizontal"
+            >
 
+            <EditText
+                android:id="@+id/country_filter_et"
+                style="@style/EditTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_margin="6dp"
+                android:hint="Фильтр по странам"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/button_filter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#FF6B6B"
+                android:layout_margin="6dp"
+                android:padding="6dp"
+                android:text="Поиск"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                app:cornerRadius="16dp"
+                app:icon="@drawable/search"
+                app:iconSize="20dp"
+                app:iconTint="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout><!--    <ImageView-->

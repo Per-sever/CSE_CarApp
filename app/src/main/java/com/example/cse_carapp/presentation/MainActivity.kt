@@ -2,6 +2,7 @@ package com.example.cse_carapp.presentation
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -27,34 +28,54 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        requestPermission()
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.carList.observe(this) {
             adapterCarList.submitList(it)
         }
         val buttonAdd = binding.buttonAdd
+        val buttonSort = binding.buttonSort
+        val buttonFilter = binding.buttonFilter
         buttonAdd.setOnClickListener {
             val intent = CarItemActivity.newIntentAddItem(this)
             startActivity(intent)
+        }
+        buttonSort.setOnClickListener {
+            viewModel.sortCarList.observe(this) {
+                setupRecyclerView()
+                adapterCarList.submitList(it)
+            }
+        }
+        buttonFilter.setOnClickListener {
+            val filterEt = binding.countryFilterEt
+            viewModel.filterCarList(filterEt.text.toString()).observe(this) {
+                setupRecyclerView()
+                adapterCarList.submitList(it)
+            }
         }
     }
 
 
     override fun onResume() {
         super.onResume()
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
-                1
-            )
-        }
         setupRecyclerView()
     }
 
+    private fun requestPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
+                    1
+                )
+            }
+        }
+    }
+
     private fun setupRecyclerView() {
-        //todo OPTIMIZE
         val rvCarList = binding.rvCarList
         rvCarList.adapter = adapterCarList
         setupSwipeListener(rvCarList)
@@ -80,26 +101,3 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
-
-
-//    findViewById<Button>(R.id.button).setOnClickListener {
-//        Glide.with(this)
-//            .load("content://com.google.android.apps.photos.contentprovider/-1/1/content%3A%2F%2Fmedia%2Fexternal%2Fimages%2Fmedia%2F1000000033/ORIGINAL/NONE/image%2Fjpeg/2085097503")
-//            .into(findViewById(R.id.iv))
-//
-//    }
-//            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-//            registerForActivity.launch(intent)
-//    var registerForActivity = registerForActivityResult(
-//        ActivityResultContracts
-//            .StartActivityForResult()
-//    ) { result ->
-//        if (result.resultCode == Activity.RESULT_OK) {
-//            val imageUri = result.data?.data
-//            Log.d("Hello", imageUri.toString())
-//            Glide.with(this)
-//                .load(imageUri.toString())
-//                .into(findViewById(R.id.iv))
-//            Log.d("Hello", "Loaded")
-//        }
-//    }
